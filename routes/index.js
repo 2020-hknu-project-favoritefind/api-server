@@ -5,7 +5,6 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  console.log("테스트")
   res.json({ "Hello": "World!" });
 });
 
