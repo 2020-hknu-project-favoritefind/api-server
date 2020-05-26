@@ -50,7 +50,7 @@ router.get("/place", (req, res, next) => {
 router.get("/auth", (req, res, next) => {
   let cl = new Client(pw);
   cl.connect()
-  cl.query(`SELECT * FROM account WHERE id='${req.query.id}' and sha3_512_password=${req.query.pw}`, (err, re) => {
+  cl.query(`SELECT * FROM account WHERE id='${req.query.id}' and sha3_512_password='${req.query.pw}'`, (err, re) => {
     if (re.rows.length === 1) {
       res.json({ "code": 200, id: re.rows[0]['id'] })
     } else if (re.rows.length === 0) {
