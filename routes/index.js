@@ -62,4 +62,15 @@ router.get("/auth", (req, res, next) => {
   });
 })
 
+/* 회원가입 */
+router.post("/auth", (req, res, next) => {
+  let cl = new Client(pw);
+  cl.connect();
+  cl.query(`INSERT FROM account(id, sha3_512_password) VALUES('${req.query.id}', '${req.query.pw}');`, (err, re) => {
+    console.log(re.rows);
+    res.json(re.rows);
+    cl.end();
+  });
+});
+
 module.exports = router;
