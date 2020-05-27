@@ -31,6 +31,7 @@ router.get("/place", (req, res, next) => {
 
   if (q) {
     cl.query(`SELECT * FROM place WHERE ${q.join(" and ")};`, (err, re) => {
+      console.error(err);
       if (re.rows) {
         res.json(re["rows"]);
       }
@@ -66,6 +67,7 @@ router.post("/auth", (req, res, next) => {
   let cl = new Client(pw);
   cl.connect();
   cl.query(`INSERT FROM account(id, sha3_512_password) VALUES('${req.query.id}', '${req.query.pw}');`, (err, re) => {
+    console.error(err);
     console.log(re.rows);
     res.json(re.rows);
     cl.end();
