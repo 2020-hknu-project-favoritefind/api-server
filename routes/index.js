@@ -29,7 +29,7 @@ router.get("/place", (req, res, next) => {
   })
   cl.connect();
 
-  if (q) {
+  if (q.length !== 0) {
     cl.query(`SELECT * FROM place WHERE ${q.join(" and ")};`, (err, re) => {
       console.error(err);
       if (re.rows) {
