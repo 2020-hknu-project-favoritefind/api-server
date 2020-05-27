@@ -5,10 +5,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  console.log("테스트")
   res.json({ "Hello": "World!" });
 });
 
+/* 장소 검색 */
 router.get("/place", (req, res, next) => {
   let cl = new Client(pw);
   let t = {
@@ -45,50 +45,31 @@ router.get("/place", (req, res, next) => {
   }
 });
 
-
-router.get("/place/id/:id", (req, res, next) => {
+/* 로그인 */
+router.get("/auth", (req, res, next) => {
   let cl = new Client(pw);
-  cl.connect();
-  cl.query(`SELECT * FROM place WHERE place_id=${decodeURI(req.params.id)};`, (err, re) => {
-    res.json(re["rows"]);
+  cl.connect()
+  cl.query(`SELECT * FROM account WHERE id='${req.query.id}' and sha3_512_password='${req.query.pw}'`, (err, re) => {
+    if (re.rows.length === 1) {
+      res.json({ "code": 200, id: re.rows[0]['id'] })
+    } else if (re.rows.length === 0) {
+      res.json({ "code": 401, "message": "ID 또는 비밀번호가 잘못되었습니다." });
+    } else {
+      res.json({ "code": 500, "message": "문제가 발생했습니다." })
+    }
     cl.end();
-  })
+  });
 })
 
-router.get("/place/city/:city", (req, res, next) => {
+/* 회원가입 */
+router.post("/auth", (req, res, next) => {
   let cl = new Client(pw);
   cl.connect();
-  cl.query(`SELECT * FROM place WHERE city='${decodeURI(req.params.city)}';`, (err, re) => {
-    res.json(re["rows"]);
+  cl.query(`INSERT FROM account(id, sha3_512_password) VALUES('${req.query.id}', '${req.query.pw}');`, (err, re) => {
+    console.log(re.rows);
+    res.json(re.rows);
     cl.end();
-  })
-})
-
-router.get("/place/category/:type", (req, res, next) => {
-  let cl = new Client(pw);
-  cl.connect();
-  cl.query(`SELECT * FROM place WHERE category='${decodeURI(req.params.type)}';`, (err, re) => {
-    res.json(re["rows"]);
-    cl.end();
-  })
-})
-
-router.put("/place/id/:id/like", (req, res, next) => {
-  let cl = new Client(pw);
-  cl.connect();
-  cl.query(`UPDATE place SET likes=likes+1 WHERE place_id=${decodeURI(req.params.id)};`, (err, re) => {
-    res.json({});
-    cl.end();
-  })
-})
-
-router.put("/place/id/:id/dislike", (req, res, next) => {
-  let cl = new Client(pw);
-  cl.connect();
-  cl.query(`UPDATE place SET likes=likes-1 WHERE place_id=${decodeURI(req.params.id)};`, (err, re) => {
-    res.json({});
-    cl.end();
-  })
-})
+  });
+});
 
 module.exports = router;
