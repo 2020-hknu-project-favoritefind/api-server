@@ -46,6 +46,27 @@ router.get("/place", (req, res, next) => {
   }
 });
 
+/** 장소 좋아요 표시 */
+router.put("/place/:id/like", (req, res, next) => {
+  let cl = new Client(pw);
+
+  if (isUser(req.query.id)) {
+    // TODO
+    res.status(503);
+    res.json({ "message": "해당 부분 미구현" });
+  } else {
+    res.status(401);
+    res.json({ "message": "로그인을 해 주세요." });
+  }
+})
+
+/** 장소 좋아요 표시 취소 */
+router.put("/place/:id/dislike", (req, res, next) => {
+  // TODO
+  res.status(503);
+  res.json({ "message": "해당 부분 미구현" });
+})
+
 /* 로그인 */
 router.get("/auth", (req, res, next) => {
   let cl = new Client(pw);
@@ -75,3 +96,14 @@ router.post("/auth", (req, res, next) => {
 });
 
 module.exports = router;
+
+async function isUser(id) {
+  let cl = new Client(pw);
+  cl.connect();
+  let re = await cl.query(`SELECT * FROM account WHERE id=${id};`);
+  if (re.rowCount > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
