@@ -66,7 +66,7 @@ router.get("/auth", (req, res, next) => {
 router.post("/auth", (req, res, next) => {
   let cl = new Client(pw);
   cl.connect();
-  cl.query(`INSERT INTO account(id, sha3_512_password, username) VALUES('${req.query.id}', '${req.query.pw}', '${req.query.name}');`, (err, re) => {
+  cl.query(`INSERT INTO account(id, sha3_512_password, username) VALUES('${req.query.id}', '${req.query.pw}', '${req.query.username}');`, (err, re) => {
     console.error(err);
     console.log(re.rows);
     res.json(re.rows);
