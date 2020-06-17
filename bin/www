@@ -20,12 +20,11 @@ var port = normalizePort(process.env.PORT || '8080');
  * Create HTTP server.
  */
 var sslOptions = {
-  key: fs.readFileSync('../auth/privkey.pem'),
-  cert: fs.readFileSync('../auth/cert.pem')
+  key: fs.readFileSync('auth/privkey.pem'),
+  cert: fs.readFileSync('auth/cert.pem')
 };
 
-var server = http.createServer(app).listen(port);
-var httpsServer = https.createServer(sslOptions, app).listen(8443);
+var server = https.createServer(sslOptions, app);
 
 /**
  * Listen on provided port, on all network interfaces.
