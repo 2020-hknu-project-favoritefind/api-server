@@ -41,6 +41,14 @@ router.get("/", (req, res, next) => {
   }
 });
 
+/* 문자열로 장소 검색 */
+router.get("/search", (req, res, next) => {
+  let cl = new Client(pw);
+  cl.query(`SELECT * FROM place WHERE name LIKE '%${req.query.q}%';`, (err, re) => {
+    res.json(re.rows)
+  })
+})
+
 /* 장소 추가 */
 router.post("/", (req, res, next) => {
   let cl = new Client(pw);
