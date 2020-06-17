@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* 장소 검색 */
-router.get("/place", (req, res, next) => {
+router.get("/", (req, res, next) => {
   let cl = new Client(pw);
   let t = {
     place_id: req.query.id,
