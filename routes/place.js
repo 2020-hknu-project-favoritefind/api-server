@@ -53,4 +53,11 @@ router.post("/", (req, res, next) => {
   })
 });
 
+router.put("/:id/like", (req, res, next) => {
+  let cl = new Client(pw);
+  cl.query(`UPDATE place SET likes=likes+1 WHERE place_id=${req.params.id}`, (err, re) => {
+    res.json([])
+  })
+});
+
 module.exports = router;
