@@ -1,3 +1,5 @@
+const { Client } = require("pg");
+var pw = require("./password.js")
 var express = require('express');
 var router = express.Router();
 
