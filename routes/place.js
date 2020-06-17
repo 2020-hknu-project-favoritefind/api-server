@@ -1,3 +1,5 @@
+const { Client } = require("pg");
+var pw = require("./password.js")
 var express = require('express');
 var router = express.Router();
 
@@ -50,6 +52,5 @@ router.post("/", (req, res, next) => {
     }
   })
 });
-
 
 module.exports = router;
