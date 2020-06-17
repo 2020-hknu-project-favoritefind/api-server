@@ -6,20 +6,26 @@
 
 var app = require('../app');
 var debug = require('debug')('backend-nodejs-app:server');
+var fs = require("fs");
 var http = require('http');
+var https = require("https");
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '8080');
-app.set('port', port);
 
 /**
  * Create HTTP server.
  */
+var sslOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/api.favorite.kro.kr/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/api.favorite.kro.kr/cert.pem')
+};
 
-var server = http.createServer(app);
+var server = http.createServer(app).listen(port);
+var httpsServer = https.createServer(sslOptions, app).listen(8443);
 
 /**
  * Listen on provided port, on all network interfaces.
