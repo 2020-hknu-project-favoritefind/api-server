@@ -41,6 +41,7 @@ router.get("/", (req, res, next) => {
   }
 });
 
+/* 장소 추가 */
 router.post("/", (req, res, next) => {
   let cl = new Client(pw);
   cl.query(`INSERT INTO place(name, province, city, full_address, coord_latitude, coord_longitude, contact, category, subdivision, last_update) 
@@ -49,6 +50,7 @@ router.post("/", (req, res, next) => {
     }
 });
 
+/* 장소 좋아요 */
 router.put("/:id/like", (req, res, next) => {
   let cl = new Client(pw);
   cl.query(`UPDATE place SET likes=likes+1 WHERE place_id=${req.params.id}`, (err, re) => {
@@ -56,6 +58,7 @@ router.put("/:id/like", (req, res, next) => {
   })
 });
 
+/* 장소 좋아요 취소 */
 router.put("/:id/dislike", (req, res, next) => {
   let cl = new Client(pw);
   cl.query(`UPDATE place SET likes=likes-1 WHERE place_id=${req.params.id}`, (err, re) => {
