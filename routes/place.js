@@ -43,14 +43,10 @@ router.get("/", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
   let cl = new Client(pw);
-  cl.query(`SELECT id FROM account WHERE id='${req.query.id}';`, (err, re) => {
-    if (re.rowCount === 1) {
-      cl.query(`INSERT INTO place(name, province, city, full_address, coord_latitude, coord_longitude, contact, category, subdivision, last_update) 
+  cl.query(`INSERT INTO place(name, province, city, full_address, coord_latitude, coord_longitude, contact, category, subdivision, last_update) 
       VALUES ('${req.query.name}', '경기도', '${req.query.city}', '${req.query.address}', ${co_lat}, ${co_lon}, '${req.query.contact}', '${req.query.category}', '${req.query.subdivision}', NOW());`), (e, r) => {
-          res.json(r["rows"])
-        }
+      res.json([])
     }
-  })
 });
 
 router.put("/:id/like", (req, res, next) => {
