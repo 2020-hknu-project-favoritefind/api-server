@@ -66,4 +66,12 @@ router.put("/:id/dislike", (req, res, next) => {
   })
 });
 
+/* 좋아요 개수 TOP 20개 반환 */
+router.get("/best", (req, res, next) => {
+  let cl = new Client(pw);
+  cl.query(`SELECT * FROM place ORDER BY likes LIMIT 20;`, (err, re) => {
+    res.json(re.rows);
+  })
+});
+
 module.exports = router;
