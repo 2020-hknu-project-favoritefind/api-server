@@ -42,4 +42,16 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+require('greenlock-express').create({
+  version: 'draft-11',
+  configDir: '/etc/letsencrypt/',
+  server: 'https://acme-v02.api.letsencrypt.org/directory',
+  email: 'moogi3469@gmail.com',
+  agreeTos: true,
+  approvedDomains: ['api.favoritefind.kro.kr'],
+  app,
+  renewWithin: 81 * 24 * 60 * 60 * 1000,
+  renewBy: 80 * 24 * 60 * 60 * 1000,
+}).listen(80, 443);
+
 module.exports = app;
