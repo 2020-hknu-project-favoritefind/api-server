@@ -24,11 +24,29 @@ router.post("/", (req, res, next) => {
   let cl = new Client(pw);
   cl.connect();
   cl.query(`INSERT INTO account(id, sha3_512_password, username) VALUES('${req.query.id}', '${req.query.pw}', '${req.query.username}');`, (err, re) => {
-    console.error(err);
-    console.log(re.rows);
     res.json(re.rows);
     cl.end();
   });
 });
+
+/* 즐겨찾기 조회 */
+router.get("/:id/favorite", (req, res, next) => {
+  let cl = new Client(pw);
+  cl.connect();
+  cl.query(`SELECT favorite_place FROM account WHERE id='${req.params.id}';`, (err, re) => {
+    res.json(re.rows.favorite_place);
+    cl.end();
+  });
+})
+
+/* 즐겨찾기 추가 */
+router.post("/:id/favorite", (req, res, next) => {
+  let cl = new Client(pw);
+  cl.connect();
+  cl.query(`UPDATE place SET favorite_place || ${req.query.id} WHERE id=${req.params.id}`, (err, re) => {
+    res.json(re.rows.favorite_place);
+    cl.end();
+  });
+})
 
 module.exports = router;
